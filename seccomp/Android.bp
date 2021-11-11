@@ -42,6 +42,18 @@ genrule_defaults {
     ],
 }
 
+// FIXME: now just reuse policy files from arm64 to pass build
+// need continue improve gen_android.sh and etc to generate policy
+// files for riscv64
+genrule_defaults {
+    name: "crosvm_inline_seccomp_policy_riscv64",
+    cmd: "$(location policy-inliner.sh) $(location riscv64/common_device.policy) < $(in) > $(out)",
+    tool_files: [
+        "policy-inliner.sh",
+        "riscv64/common_device.policy",
+    ],
+}
+
 genrule {
     name: "vhost_net_device.policy_inline_x86_64",
     defaults: ["crosvm_inline_seccomp_policy_x86_64"],
@@ -70,6 +82,20 @@ prebuilt_usr_share_host {
     src: ":vhost_net_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "vhost_net_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["vhost_net_device.policy"],
+    srcs: ["riscv64/vhost_net_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "vhost_net_device.policy_riscv64",
+    filename: "vhost_net_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":vhost_net_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "vhost_net_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -79,6 +105,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":vhost_net_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":vhost_net_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -119,6 +148,20 @@ prebuilt_usr_share_host {
     src: ":input_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "input_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["input_device.policy"],
+    srcs: ["riscv64/input_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "input_device.policy_riscv64",
+    filename: "input_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":input_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "input_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -128,6 +171,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":input_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":input_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -168,6 +214,20 @@ prebuilt_usr_share_host {
     src: ":wl_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "wl_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["wl_device.policy"],
+    srcs: ["riscv64/wl_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "wl_device.policy_riscv64",
+    filename: "wl_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":wl_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "wl_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -177,6 +237,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":wl_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":wl_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -217,6 +280,20 @@ prebuilt_usr_share_host {
     src: ":net_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "net_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["net_device.policy"],
+    srcs: ["riscv64/net_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "net_device.policy_riscv64",
+    filename: "net_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":net_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "net_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -226,6 +303,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":net_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":net_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -266,6 +346,20 @@ prebuilt_usr_share_host {
     src: ":9p_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "9p_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_aarch64"],
+    out: ["9p_device.policy"],
+    srcs: ["riscv64/9p_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "9p_device.policy_riscv64",
+    filename: "9p_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":9p_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "9p_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -275,6 +369,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":9p_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":9p_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -315,6 +412,20 @@ prebuilt_usr_share_host {
     src: ":cras_audio_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "cras_audio_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["cras_audio_device.policy"],
+    srcs: ["riscv64/cras_audio_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "cras_audio_device.policy_riscv64",
+    filename: "cras_audio_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":cras_audio_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "cras_audio_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -324,6 +435,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":cras_audio_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":cras_audio_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -360,6 +474,9 @@ prebuilt_etc {
     },
     target: {
         android_arm64: {
+            enabled: false,
+        },
+        android_riscv64: {
             enabled: false,
         },
         android_arm: {
@@ -399,6 +516,20 @@ prebuilt_usr_share_host {
     src: ":vhost_vsock_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "vhost_vsock_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["vhost_vsock_device.policy"],
+    srcs: ["riscv64/vhost_vsock_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "vhost_vsock_device.policy_riscv64",
+    filename: "vhost_vsock_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":vhost_vsock_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "vhost_vsock_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -408,6 +539,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":vhost_vsock_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":vhost_vsock_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -448,6 +582,20 @@ prebuilt_usr_share_host {
     src: ":block_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "block_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["block_device.policy"],
+    srcs: ["riscv64/block_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "block_device.policy_riscv64",
+    filename: "block_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":block_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "block_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -457,6 +605,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":block_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":block_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -497,6 +648,20 @@ prebuilt_usr_share_host {
     src: ":vios_audio_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "vios_audio_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["vios_audio_device.policy"],
+    srcs: ["riscv64/vios_audio_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "vios_audio_device.policy_riscv64",
+    filename: "vios_audio_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":vios_audio_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "vios_audio_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -506,6 +671,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":vios_audio_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":vios_audio_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -546,6 +714,20 @@ prebuilt_usr_share_host {
     src: ":fs_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "fs_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["fs_device.policy"],
+    srcs: ["riscv64/fs_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "fs_device.policy_riscv64",
+    filename: "fs_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":fs_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "fs_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -555,6 +737,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":fs_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":fs_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -595,6 +780,20 @@ prebuilt_usr_share_host {
     src: ":rng_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "rng_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["rng_device.policy"],
+    srcs: ["riscv64/rng_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "rng_device.policy_riscv64",
+    filename: "rng_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":rng_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "rng_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -604,6 +803,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":rng_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":rng_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -644,6 +846,20 @@ prebuilt_usr_share_host {
     src: ":tpm_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "tpm_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["tpm_device.policy"],
+    srcs: ["riscv64/tpm_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "tpm_device.policy_riscv64",
+    filename: "tpm_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":tpm_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "tpm_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -653,6 +869,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":tpm_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":tpm_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -693,6 +912,21 @@ prebuilt_usr_share_host {
     src: ":null_audio_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "null_audio_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["null_audio_device.policy"],
+    srcs: ["riscv64/null_audio_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "null_audio_device.policy_riscv64",
+    filename: "null_audio_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":null_audio_device.policy_inline_riscv64",
+}
+
+
 prebuilt_etc {
     name: "null_audio_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -702,6 +936,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":null_audio_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":null_audio_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -742,6 +979,20 @@ prebuilt_usr_share_host {
     src: ":battery.policy_inline_aarch64",
 }
 
+genrule {
+    name: "battery.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["battery.policy"],
+    srcs: ["riscv64/battery.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "battery.policy_riscv64",
+    filename: "battery.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":battery.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "battery.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -751,6 +1002,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":battery.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":battery.policy_inline_riscv64",
         },
     },
     target: {
@@ -787,6 +1041,9 @@ prebuilt_etc {
     },
     target: {
         android_arm64: {
+            enabled: false,
+        },
+        android_riscv64: {
             enabled: false,
         },
         android_arm: {
@@ -826,6 +1083,20 @@ prebuilt_usr_share_host {
     src: ":gpu_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "gpu_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["gpu_device.policy"],
+    srcs: ["riscv64/gpu_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "gpu_device.policy_riscv64",
+    filename: "gpu_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":gpu_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "gpu_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -835,6 +1106,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":gpu_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":gpu_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -875,6 +1149,20 @@ prebuilt_usr_share_host {
     src: ":balloon_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "balloon_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["balloon_device.policy"],
+    srcs: ["riscv64/balloon_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "balloon_device.policy_riscv64",
+    filename: "balloon_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":balloon_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "balloon_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -884,6 +1172,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":balloon_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":balloon_device.policy_inline_riscv64",
         },
     },
     target: {
@@ -924,6 +1215,20 @@ prebuilt_usr_share_host {
     src: ":xhci.policy_inline_aarch64",
 }
 
+genrule {
+    name: "xhci.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["xhci.policy"],
+    srcs: ["riscv64/xhci.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "xhci.policy_riscv64",
+    filename: "xhci.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":xhci.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "xhci.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -933,6 +1238,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":xhci.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":xhci.policy_inline_riscv64",
         },
     },
     target: {
@@ -973,6 +1281,20 @@ prebuilt_usr_share_host {
     src: ":serial.policy_inline_aarch64",
 }
 
+genrule {
+    name: "serial.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["serial.policy"],
+    srcs: ["riscv64/serial.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "serial.policy_riscv64",
+    filename: "serial.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":serial.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "serial.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -982,6 +1304,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":serial.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":serial.policy_inline_riscv64",
         },
     },
     target: {
@@ -1022,6 +1347,20 @@ prebuilt_usr_share_host {
     src: ":pmem_device.policy_inline_aarch64",
 }
 
+genrule {
+    name: "pmem_device.policy_inline_riscv64",
+    defaults: ["crosvm_inline_seccomp_policy_riscv64"],
+    out: ["pmem_device.policy"],
+    srcs: ["riscv64/pmem_device.policy"],
+}
+
+prebuilt_usr_share_host {
+    name: "pmem_device.policy_riscv64",
+    filename: "pmem_device.policy",
+    relative_install_path: "crosvm/riscv64-linux-gnu/seccomp",
+    src: ":pmem_device.policy_inline_riscv64",
+}
+
 prebuilt_etc {
     name: "pmem_device.policy",
     relative_install_path: "seccomp_policy/crosvm",
@@ -1031,6 +1370,9 @@ prebuilt_etc {
         },
         arm64: {
             src: ":pmem_device.policy_inline_aarch64",
+        },
+        riscv64: {
+            src: ":pmem_device.policy_inline_riscv64",
         },
     },
     target: {
